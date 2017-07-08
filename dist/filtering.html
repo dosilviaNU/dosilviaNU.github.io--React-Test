@@ -1,0 +1,106 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="/resources/js/chosen/css/bootstrap-chosen.css" />
+
+    <script type="text/javascript" src="/resources/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/resources/js/chosen/js/chosen.jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="/resources/js/knockout/knockout-3.4.1.js"></script>
+    <script type="text/javascript" src="/resources/js/filter.js"></script>
+</head>
+
+<div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+        <h1>Filtering Demo</h1>
+        <p>This is a demo of a filtering algorithm I created while working as a developer with Boston Children's Hospital's Anesthesia IT Department.
+        This was one of the first projects I worked on as a co-op employee, within the application these filters allowed users to filter through 1,700+ entries, once
+        a user had chosen the appropriate filters for their use case, bulk tools then allowed the user to perform actions on all remaining entries</p>
+        <p>The priority of the selected filters are displayed in the applied filters box. The filters are OR'ed together within the same filter type,
+        and AND'ed when choosing multiple filter types. i.e. if I were to select "Bob", "David" as name filters and then select "Playstation" as an
+        application filter, then it would display all users named "Bob" or "David" and have "Playstation" as an application.</p>
+        <p> © Boston Children's Hospital, All Rights Reserved</p>
+    </div>
+</div>
+<!-- DISPLAY/FILTERS/CLEAR ROW -->
+<div class="col-sm-10 col-sm-offset-1">
+<div class="row" id="test">
+    <div class="col-sm-8">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <select style="width: 100%" multiple="multiple" data-placeholder="Apply Name Filters"
+                            data-bind="options: uniqueNames, selectedOptions: nameSelectedOptions, chosen: {width: '100%'}"></select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <select style="width: 100%" multiple="multiple" data-placeholder="Apply Application Code Filters"
+                            data-bind="options: uniqueApplicationCodes, selectedOptions: applicationCodeSelectedOptions, chosen: {width: '100%'}"></select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <select style="width: 100%" multiple="multiple" data-placeholder="Apply Role Filters"
+                            data-bind="options: uniqueRoles, selectedOptions: roleSelectedOptions, chosen: {width: '100%'}"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="col-sm-10">
+            <div class="row">
+                <!-- ko ifnot: filtered -->
+                <ol class="breadcrumb" style="border-radius: 4px 0 0 4px !important;">
+                    <li>No filters applied</li>
+                </ol>
+                <!-- /ko -->
+                <!-- ko if: filtered -->
+                <ol class="breadcrumb" data-bind="foreach: appliedFilters"
+                    style="margin-right: 0;margin-left: 0;border-radius: 4px 0 0 4px !important;">
+                    <li data-bind="text: $data"></li>
+                </ol>
+                <!-- /ko -->
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="row">
+                <button class="btn btn-primary" data-bind="click: clearFilters" style="height: 36px !important;
+                                border-radius: 0 4px 4px 0 !important;"><span
+                        class='glyphicon glyphicon-remove-sign'
+                        style="font-size: 150%; top: -2px
+                                        !important"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Clear Filters">
+                        </span></button>
+            </div>
+        </div>
+    </div>
+</div> <!-- END OF DISPLAY/FILTER/CLEAR ROW -->
+
+
+<!-- TABLE/BUTTON ROW -->
+<div class="row">
+        <table id="rolesAuthTable" class = "table table-hover table-striped table-condensed">
+            <thead>
+            <tr>
+                <th style="cursor: pointer">Name</th>
+                <th style="cursor: pointer">Application Code</th>
+                <th style="cursor: pointer">Role</th>
+            </tr>
+            </thead>
+            <tbody data-bind="foreach: displayArray">
+            <tr>
+                <td>
+                    <span data-bind="text:name, style: {color: name() == 'No Name Found' ? '#cac5c5' : '#555555'}"></span>
+                </td>
+                <td data-bind="text: applicationCode"></td>
+                <td data-bind="text: role"></td>
+            </tr>
+            </tbody>
+        </table>
+</div>
+</div>
+</html>
